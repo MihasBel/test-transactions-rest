@@ -1,9 +1,14 @@
 package model
 
-// Balance represent balance of user. can contain related transactions.
+import (
+	"github.com/google/uuid"
+	"time"
+)
+
+// Balance represent slice of balance of user.
 type Balance struct {
-	ID          int           `json:"id"`
-	UserID      string        `json:"userID"`
-	Amount      int           `json:"amount"`
-	TranHistory []Transaction `json:"tranHistory"`
+	ID     int       `json:"id"`
+	UserID uuid.UUID `json:"user_id"`
+	Amount int       `json:"amount"`
+	Month  time.Time `json:"month"`
 }

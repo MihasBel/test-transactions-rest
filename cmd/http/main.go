@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"flag"
+	"github.com/golang/mock/gomock"
 	"os"
 	"os/signal"
 	"syscall"
@@ -36,7 +37,8 @@ func main() {
 	}
 	log.Logger = logger.New(app.Config)
 	//TODO start DB
-	application := delivery.New(app.Config, mocks.TestTransactor{})
+	application := delivery.New(app.Config, mocks.NewMockHandler(gomock.NewController(mocks.Reporter{})),
+		mocks.NewMockSecurityHandler(gomock.NewController(mocks.Reporter{})))
 	startCtx, startCancel := context.WithTimeout(context.Background(), time.Duration(app.Config.StartTimeout)*time.Second)
 	defer startCancel()
 	if err := application.Start(startCtx); err != nil {

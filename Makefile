@@ -28,3 +28,7 @@ run:
 .PHONY: swag
 swag:
 	swag init -g cmd/http/main.go
+
+.PHONY: generate
+generate:
+	@go generate ./...
