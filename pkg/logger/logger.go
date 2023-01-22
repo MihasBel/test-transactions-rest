@@ -6,7 +6,7 @@ import (
 	"path"
 	"runtime/debug"
 
-	"github.com/MihasBel/test-transactions/internal/app"
+	"github.com/MihasBel/test-transactions-rest/internal/app"
 	"github.com/natefinch/lumberjack"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"

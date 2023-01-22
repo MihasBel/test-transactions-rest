@@ -1,4 +1,4 @@
-module github.com/MihasBel/test-transactions
+module github.com/MihasBel/test-transactions-rest
 
 go 1.19
 

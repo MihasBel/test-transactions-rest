@@ -5,7 +5,7 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/MihasBel/test-transactions/model"
+	"github.com/MihasBel/test-transactions-rest/model"
 	"github.com/gofiber/fiber/v2"
 	"github.com/rs/zerolog/log"
 )

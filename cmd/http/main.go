@@ -8,11 +8,11 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/MihasBel/test-transactions/delivery"
-	"github.com/MihasBel/test-transactions/mocks"
+	"github.com/MihasBel/test-transactions-rest/delivery"
+	"github.com/MihasBel/test-transactions-rest/mocks"
 
-	"github.com/MihasBel/test-transactions/internal/app"
-	"github.com/MihasBel/test-transactions/pkg/logger"
+	"github.com/MihasBel/test-transactions-rest/internal/app"
+	"github.com/MihasBel/test-transactions-rest/pkg/logger"
 	"github.com/jinzhu/configor"
 	"github.com/rs/zerolog/log"
 )

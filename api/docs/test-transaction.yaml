@@ -1,0 +1,110 @@
+openapi: 3.0.1
+info:
+  title: Test Transactions
+  description: This is a test task for the implementation of a transaction system.
+    It accepts requests to deposit or withdraw money and enters them into the database.
+    It also gives transaction data from the database when requesting information on
+    any transaction.  User ID extracts from JWT token used for authorization . Project
+    repository [github](https://github.com/MihasBel/test-transactions)
+  version: 1.0.0
+servers:
+- url: https://0.0.0.0:8080/api/v1
+- url: http://0.0.0.0:8080/api/v1
+security:
+- bearerAuth: []
+tags:
+- name: transaction
+  description: Manage transactions
+paths:
+  /transaction:
+    post:
+      tags:
+      - transaction
+      summary: Place a transaction
+      operationId: placeTransaction
+      requestBody:
+        description: model with amount
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TPostParam'
+        required: true
+      responses:
+        202:
+          description: accepted operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    format: uuid
+                    description: The transaction ID.
+        400:
+          description: Invalid transaction
+          content: {}
+      x-codegen-request-body-name: body
+  /transaction/{transactionId}:
+    get:
+      tags:
+      - transaction
+      summary: Find current transaction with status by transaction ID
+      operationId: getTransactionById
+      parameters:
+      - name: transactionId
+        in: path
+        description: ID of the transaction
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transaction'
+        400:
+          description: Invalid ID supplied
+          content: {}
+        404:
+          description: Balance not found
+          content: {}
+components:
+  securitySchemes:
+      bearerAuth:            # arbitrary name for the security scheme
+        type: http
+        scheme: bearer
+        bearerFormat: JWT 
+  schemas:
+
+    TPostParam:
+      type: object
+      properties:
+        amount:
+          type: integer
+          description: To reduce the balance, provide a negative integer, and a positive
+            integer to increase. Must be different from zero
+          format: int64
+    Transaction:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        user_id:
+          type: string
+          format: uuid
+        amount:
+          type: integer
+          format: int64
+        status:
+          type: integer
+          format: int64
+        created_at:
+          type: string
+          format: date-time
+        description:
+          type: string

@@ -1,7 +1,7 @@
 package delivery
 
 import (
-	"github.com/MihasBel/test-transactions/internal/app"
+	"github.com/MihasBel/test-transactions-rest/internal/app"
 	"github.com/gofiber/fiber/v2"
 )
 

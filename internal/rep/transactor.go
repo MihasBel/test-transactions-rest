@@ -4,7 +4,7 @@ import (
 	"context"
 	"time"
 
-	"github.com/MihasBel/test-transactions/model"
+	"github.com/MihasBel/test-transactions-rest/model"
 )
 
 // Transactor interface to work with transactions repository

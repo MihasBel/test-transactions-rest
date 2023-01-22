@@ -5,8 +5,8 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/MihasBel/test-transactions/internal/app"
-	"github.com/MihasBel/test-transactions/internal/rep"
+	"github.com/MihasBel/test-transactions-rest/internal/app"
+	"github.com/MihasBel/test-transactions-rest/internal/rep"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/pkg/errors"
