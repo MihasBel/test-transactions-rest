@@ -19,4 +19,6 @@ type Configuration struct {
 	LogMaxBackups         int // files
 	LogMaxSize            int // megabytes
 	LogMaxAge             int // days
+	KafkaURL              string
+	PartitionsCount       int
 }
