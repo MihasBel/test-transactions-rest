@@ -69,5 +69,24 @@ func (t BTransactor) GetTransactionByID(_ context.Context, id uuid.UUID) (model.
 	if err = json.Unmarshal([]byte(val), &tran); err != nil {
 		t.l.Error().Err(err)
 	}
+	if tran.Status != 0 {
+		return tran, nil
+	}
+	tran = model.Transaction{ //TODO ask service by grpc to get transaction
+		ID:          tran.ID,
+		UserID:      tran.UserID,
+		Amount:      tran.Amount,
+		CreatedAt:   tran.CreatedAt,
+		Status:      1,
+		Description: "success",
+	}
+	data, err := json.Marshal(tran)
+	if err != nil {
+		return model.Transaction{}, err
+	}
+	if err = t.cache.Set(tran.ID.String(), string(data), 0).Err(); err != nil {
+		return model.Transaction{}, err
+	}
 	return tran, nil
+
 }
