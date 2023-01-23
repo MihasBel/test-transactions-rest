@@ -20,6 +20,7 @@ require (
 	github.com/andybalholm/brotli v1.0.4 // indirect
 	github.com/go-faster/errors v0.6.1 // indirect
 	github.com/go-faster/jx v0.40.0 // indirect
+	github.com/go-redis/redis v6.15.9+incompatible // indirect
 	github.com/klauspost/compress v1.15.9 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.17 // indirect

@@ -21,4 +21,6 @@ type Configuration struct {
 	LogMaxAge             int // days
 	KafkaURL              string
 	PartitionsCount       int
+	RedisURL              string
+	RedisPass             string
 }

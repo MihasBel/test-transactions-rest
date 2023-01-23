@@ -31,7 +31,7 @@ func main() {
 	log.Logger = l
 	//TODO start DB
 	b := broker.NewBroker(app.Config, l)
-	h := rep.NewBTransactor(b, l)
+	h := rep.NewBTransactor(b, l, app.Config)
 	application := delivery.New(app.Config, h)
 	startCtx, startCancel := context.WithTimeout(context.Background(), time.Duration(app.Config.StartTimeout)*time.Second)
 	defer startCancel()

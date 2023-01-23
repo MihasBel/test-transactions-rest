@@ -6,7 +6,12 @@ import (
 )
 
 func (r *REST) byID(ctx *fiber.Ctx) error {
-	t, err := r.t.GetTransactionByID(ctx.Context(), uuid.UUID{})
+	ids := ctx.Params("transactionId", "")
+	id, err := uuid.Parse(ids)
+	if err != nil {
+		return fiber.NewError(404, "wrong id format")
+	}
+	t, err := r.t.GetTransactionByID(ctx.Context(), id)
 	if err != nil {
 		return fiber.NewError(404, "transaction not found")
 	}
