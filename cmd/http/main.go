@@ -22,7 +22,7 @@ func main() {
 	flag.Parse()
 
 	if err := configor.New(&configor.Config{ErrorOnUnmatchedKeys: true}).Load(&app.Config, configPath); err != nil {
-		log.Fatal().Err(err).Msg("cannot load config")
+		log.Error().Err(err).Msg("cannot load config")
 	}
 	l := logger.New(app.Config)
 	log.Logger = l
@@ -30,7 +30,7 @@ func main() {
 	startCtx, startCancel := context.WithTimeout(context.Background(), time.Duration(app.Config.StartTimeout)*time.Second)
 	defer startCancel()
 	if err := application.Start(startCtx); err != nil {
-		log.Fatal().Err(err).Msg("cannot start application") // nolint
+		log.Error().Err(err).Msg("cannot start application") // nolint
 	}
 
 	log.Info().Msg("application started")
