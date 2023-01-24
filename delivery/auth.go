@@ -6,7 +6,7 @@ import (
 )
 
 func (r *REST) extractUserID(c *fiber.Ctx) (uuid.UUID, bool) {
-	return uuid.MustParse("bc708c12-7794-4716-b26c-47b4373d9716"), true
+	return uuid.MustParse("bc708c12-7794-4716-b26c-47b4373d9716"), true //TODO processing jwt
 	/*	user, ok := c.Locals("user_id").(*jwt.Token)
 		if !ok {
 			return uuid.UUID{}, false
