@@ -5,7 +5,6 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/MihasBel/test-transactions-rest/internal/app"
 	"github.com/MihasBel/test-transactions-rest/internal/rep"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
@@ -16,12 +15,12 @@ import (
 // REST represent REST-full application
 type REST struct {
 	app *fiber.App
-	cfg app.Configuration
+	cfg Config
 	t   rep.Transactor
 }
 
-// New Create new instance of REST. Should use only in main.
-func New(config app.Configuration, t rep.Transactor) *REST {
+// New Create new instance of REST.
+func New(config Config, t rep.Transactor) *REST {
 	a := fiber.New()
 	a.Use(cors.New())
 	rest := REST{
@@ -34,7 +33,7 @@ func New(config app.Configuration, t rep.Transactor) *REST {
 	return &rest
 }
 
-// Start an application
+// Start rest server
 func (r *REST) Start(_ context.Context) error {
 	errCh := make(chan error)
 	log.Debug().Msgf("start listening %q", r.cfg.Address)
@@ -52,7 +51,7 @@ func (r *REST) Start(_ context.Context) error {
 	}
 }
 
-// Stop an application
+// Stop rest server
 func (r *REST) Stop(_ context.Context) error {
 	errCh := make(chan error)
 	log.Debug().Msgf("stopping %q", r.cfg.Address)

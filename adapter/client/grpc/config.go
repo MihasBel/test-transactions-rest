@@ -1,5 +1,6 @@
 package grpc
 
+// Config configuration
 type Config struct {
 	Endpoint         string `json:"endpoint" `
 	DealTimeout      int    `json:"deal_timeout" `

@@ -1,7 +1,6 @@
 package broker
 
 import (
-	"github.com/MihasBel/test-transactions-rest/internal/app"
 	"github.com/confluentinc/confluent-kafka-go/kafka"
 	"github.com/rs/zerolog"
 )
@@ -9,12 +8,12 @@ import (
 // Broker represents kafka broker with logger and config
 type Broker struct {
 	b   *kafka.Producer
-	cfg app.Configuration
+	cfg Config
 	l   zerolog.Logger
 }
 
-// NewBroker returns new instance of Broker
-func NewBroker(cfg app.Configuration, l zerolog.Logger) *Broker {
+// New returns new instance of Broker
+func New(cfg Config, l zerolog.Logger) *Broker {
 	b, err := kafka.NewProducer(&kafka.ConfigMap{
 		"bootstrap.servers": cfg.KafkaURL,
 		"client.id":         "PLAINTEXT",

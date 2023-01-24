@@ -5,12 +5,12 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/MihasBel/test-transactions-rest/internal/app"
-	"github.com/MihasBel/test-transactions-rest/pkg/cache"
+	"github.com/MihasBel/test-transactions-rest/adapter/broker"
+	"github.com/MihasBel/test-transactions-rest/adapter/client/grpc"
+
 	"github.com/go-redis/redis"
 	"github.com/ogen-go/ogen/json"
 
-	"github.com/MihasBel/test-transactions-rest/internal/broker"
 	"github.com/MihasBel/test-transactions-rest/model"
 	"github.com/google/uuid"
 	"github.com/rs/zerolog"
@@ -19,18 +19,18 @@ import (
 // BTransactor transactor with broker
 type BTransactor struct {
 	b     *broker.Broker
-	cfg   app.Configuration
+	g     *grpc.Client
 	l     zerolog.Logger
 	cache *redis.Client
 }
 
 // NewBTransactor creates BTransactor
-func NewBTransactor(b *broker.Broker, l zerolog.Logger, cfg app.Configuration) BTransactor {
+func NewBTransactor(b *broker.Broker, g *grpc.Client, cache *redis.Client, l zerolog.Logger) BTransactor {
 	return BTransactor{
 		b:     b,
 		l:     l,
-		cfg:   cfg,
-		cache: cache.New(cfg),
+		g:     g,
+		cache: cache,
 	}
 }
 
@@ -59,8 +59,8 @@ func (t BTransactor) PlaceTransaction(ctx context.Context, amount int, userID uu
 	return tran.ID, nil
 }
 
-// GetTransactionByID TODO connect to service by grpc to get info
-func (t BTransactor) GetTransactionByID(_ context.Context, id uuid.UUID) (model.Transaction, error) {
+// GetTransactionByID get transaction info by grpc from service
+func (t BTransactor) GetTransactionByID(ctx context.Context, id uuid.UUID) (model.Transaction, error) {
 	val, err := t.cache.Get(id.String()).Result()
 	if err != nil {
 		t.l.Error().Err(err)
@@ -72,15 +72,11 @@ func (t BTransactor) GetTransactionByID(_ context.Context, id uuid.UUID) (model.
 	if tran.Status != 0 {
 		return tran, nil
 	}
-	tran = model.Transaction{ //TODO ask service by grpc to get transaction
-		ID:          tran.ID,
-		UserID:      tran.UserID,
-		Amount:      tran.Amount,
-		CreatedAt:   tran.CreatedAt,
-		Status:      1,
-		Description: "success",
+	rt, err := t.g.GetTransaction(ctx, id)
+	if err != nil {
+		return model.Transaction{}, err
 	}
-	data, err := json.Marshal(tran)
+	data, err := json.Marshal(&rt)
 	if err != nil {
 		return model.Transaction{}, err
 	}
