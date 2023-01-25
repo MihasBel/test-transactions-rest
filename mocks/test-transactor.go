@@ -52,16 +52,16 @@ func (mr *MockTransactorMockRecorder) GetTransactionByID(ctx, id interface{}) *g
 }
 
 // PlaceTransaction mocks base method.
-func (m *MockTransactor) PlaceTransaction(ctx context.Context, amount int) (uuid.UUID, error) {
+func (m *MockTransactor) PlaceTransaction(ctx context.Context, amount int, userID uuid.UUID) (uuid.UUID, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "PlaceTransaction", ctx, amount)
+	ret := m.ctrl.Call(m, "PlaceTransaction", ctx, amount, userID)
 	ret0, _ := ret[0].(uuid.UUID)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // PlaceTransaction indicates an expected call of PlaceTransaction.
-func (mr *MockTransactorMockRecorder) PlaceTransaction(ctx, amount interface{}) *gomock.Call {
+func (mr *MockTransactorMockRecorder) PlaceTransaction(ctx, amount, userID interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PlaceTransaction", reflect.TypeOf((*MockTransactor)(nil).PlaceTransaction), ctx, amount)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PlaceTransaction", reflect.TypeOf((*MockTransactor)(nil).PlaceTransaction), ctx, amount, userID)
 }
