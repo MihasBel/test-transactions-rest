@@ -18,6 +18,10 @@ func (r *REST) place(ctx *fiber.Ctx) error {
 		log.Error().Err(err).Msg("error while decode body")
 		return fiber.NewError(http.StatusBadRequest, "error while decode request body")
 	}
+	if a.Amount == 0 {
+		log.Debug().Msg("amount should be different from 0")
+		return fiber.NewError(http.StatusBadRequest, "amount should be different from 0")
+	}
 	id, err := r.t.PlaceTransaction(ctx.Context(), a.Amount, uid)
 	if err != nil {
 		return fiber.NewError(404, err.Error())

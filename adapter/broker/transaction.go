@@ -10,8 +10,8 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
-// Transaction name of transaction topic
-var Transaction = "transaction"
+// TopicTransaction name of transaction topic
+var TopicTransaction = "transaction"
 
 // PlaceTransaction create new transaction nad post to broker
 func (b *Broker) PlaceTransaction(_ context.Context, transaction model.Transaction) error {
@@ -29,7 +29,7 @@ func (b *Broker) PlaceTransaction(_ context.Context, transaction model.Transacti
 	}
 	delChan := make(chan kafka.Event, 10000)
 	err = b.b.Produce(&kafka.Message{
-		TopicPartition: kafka.TopicPartition{Topic: &Transaction, Partition: kafka.PartitionAny},
+		TopicPartition: kafka.TopicPartition{Topic: &TopicTransaction, Partition: kafka.PartitionAny},
 		Value:          data},
 		delChan,
 	)

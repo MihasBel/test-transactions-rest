@@ -2,7 +2,6 @@ package rep
 
 import (
 	"context"
-	"fmt"
 	"time"
 
 	"github.com/MihasBel/test-transactions-rest/adapter/broker"
@@ -47,8 +46,7 @@ func (t BTransactor) PlaceTransaction(ctx context.Context, amount int, userID uu
 	if err := t.b.PlaceTransaction(ctx, tran); err != nil {
 		return [16]byte{}, err
 	}
-	pong, err := t.cache.Ping().Result()
-	fmt.Println(pong, err)
+
 	data, err := json.Marshal(tran)
 	if err != nil {
 		t.l.Error().Err(err)
@@ -83,6 +81,6 @@ func (t BTransactor) GetTransactionByID(ctx context.Context, id uuid.UUID) (mode
 	if err = t.cache.Set(tran.ID.String(), string(data), 0).Err(); err != nil {
 		return model.Transaction{}, err
 	}
-	return tran, nil
+	return *rt, nil
 
 }
