@@ -6,6 +6,10 @@ import (
 )
 
 func (r *REST) byID(ctx *fiber.Ctx) error {
+	_, ok := r.extractUserID(ctx)
+	if !ok {
+		return fiber.NewError(401, "unauthorized")
+	}
 	ids := ctx.Params("transactionId", "")
 	id, err := uuid.Parse(ids)
 	if err != nil {
