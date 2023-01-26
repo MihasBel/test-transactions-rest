@@ -72,6 +72,9 @@ func (t BTransactor) GetTransactionByID(ctx context.Context, id uuid.UUID) (mode
 	}
 	rt, err := t.g.GetTransaction(ctx, id)
 	if err != nil {
+		if tran.ID != uuid.Nil {
+			return tran, err
+		}
 		return model.Transaction{}, err
 	}
 	data, err := json.Marshal(&rt)
