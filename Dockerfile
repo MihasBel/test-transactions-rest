@@ -9,7 +9,7 @@ COPY . ./
 RUN go mod download
 
 RUN go build \
-       			-o bin/app/test-transaction \
+       			-o bin/app/test-transaction-rest \
        			cmd/http/main.go
 
 ## Deploy
@@ -21,7 +21,7 @@ WORKDIR /
 COPY --from=builder /build/bin/app/test-transactions ./test-transactions
 COPY configs/local/env.json ./
 
-EXPOSE 8080
+EXPOSE 8070
 
 
 
